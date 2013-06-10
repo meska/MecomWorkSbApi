@@ -5,6 +5,26 @@ import urllib
 import simplejson
 import threading
 
+
+class ApiThread(threading.Thread):
+    def __init__(self, cmd,text, edit):
+        threading.Thread.__init__(self)
+        self.cmd = cmd
+        self.text = text
+        self.edit = edit
+
+    def run(self):
+        for chunk in self.text.splitlines():
+            apiRes = apiGet('bot', cmd=chunk.strip())
+            if apiRes:
+                if 'out' in apiRes:
+                    print "---------------------------------"
+                    for r in apiRes['out']:
+                        print r
+
+        #sublime.set_timeout(self.callback, 1)
+
+
 def apiGet(api, **kwargs):
     request = urllib2.Request("http://192.168.2.52/api/%s/" % (api))
 
@@ -17,11 +37,10 @@ def apiGet(api, **kwargs):
         return None
 
 
-class MecomWorkSendToBotCommand(sublime_plugin.TextCommand):
+class MecomWorkSendToBotThreadedCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
-		#sublime.log_commands(True)
-    	sublime.active_window().run_command("show_panel", {"panel": "console", "toggle": True})
+        sublime.active_window().run_command("show_panel", {"panel": "console", "toggle": True})
 
         for selection in self.view.sel():
             # if the user didn't select anything, search the currently highlighted word
@@ -29,10 +48,6 @@ class MecomWorkSendToBotCommand(sublime_plugin.TextCommand):
                 text = self.view.word(selection)
 
             text = self.view.substr(selection)
-            for chunk in text.splitlines():
-                apiRes = apiGet('bot', cmd=chunk.strip())
-                if apiRes:
-                    if 'out' in apiRes:
-                        print "---------------------------------"
-                        for r in apiRes['out']:
-                        	print r       
+            print "invio comandi al bot..."
+            apiT = ApiThread(self, text, edit)
+            apiT.start()
