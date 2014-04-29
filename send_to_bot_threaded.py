@@ -1,6 +1,5 @@
 import sublime
 import sublime_plugin
-import urllib2
 import urllib
 import simplejson
 import threading
@@ -26,11 +25,11 @@ class ApiThread(threading.Thread):
 
 
 def apiGet(api, **kwargs):
-    request = urllib2.Request("http://192.168.2.2/api/%s/" % (api))
+    request = urllib.request.Request("http://192.168.2.2/api/%s/" % (api))
 
     if kwargs:
             request.add_data(urllib.urlencode(kwargs))
-    result = urllib2.urlopen(request, timeout=120)
+    result = urllib.request.urlopen(request, timeout=120)
     try:
         return simplejson.load(result)
     except:
