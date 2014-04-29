@@ -1,7 +1,7 @@
 import sublime
 import sublime_plugin
 import urllib
-import simplejson
+import json
 import threading
 
 
@@ -31,7 +31,7 @@ def apiGet(api, **kwargs):
             request.add_data(urllib.urlencode(kwargs))
     result = urllib.request.urlopen(request, timeout=120)
     try:
-        return simplejson.load(result)
+        return json.load(result)
     except:
         return None
 
