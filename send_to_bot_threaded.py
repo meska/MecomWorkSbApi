@@ -26,7 +26,7 @@ class ApiThread(threading.Thread):
 
 
 def apiGet(api, **kwargs):
-    request = urllib2.Request("http://192.168.2.52/api/%s/" % (api))
+    request = urllib2.Request("http://192.168.2.2/api/%s/" % (api))
 
     if kwargs:
             request.add_data(urllib.urlencode(kwargs))
@@ -48,6 +48,6 @@ class MecomWorkSendToBotThreadedCommand(sublime_plugin.TextCommand):
                 text = self.view.word(selection)
 
             text = self.view.substr(selection)
-            print "invio comandi al bot..."
+            print("invio comandi al bot...")
             apiT = ApiThread(self, text, edit)
             apiT.start()
