@@ -15,7 +15,6 @@ class ApiThread(threading.Thread):
     def run(self):
         for chunk in self.text.splitlines():
             apiRes = apiGet('bot', cmd=chunk.strip())
-            print(apiRes)
             if apiRes:
                 if 'out' in apiRes:
                     print("---------------------------------")
