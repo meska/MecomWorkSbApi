@@ -18,9 +18,9 @@ class ApiThread(threading.Thread):
             apiRes = apiGet('bot', cmd=chunk.strip())
             if apiRes:
                 if 'out' in apiRes:
-                    print "---------------------------------"
+                    print("---------------------------------")
                     for r in apiRes['out']:
-                        print r
+                        print(r)
 
         #sublime.set_timeout(self.callback, 1)
 

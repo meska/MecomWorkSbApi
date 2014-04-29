@@ -33,6 +33,6 @@ class MecomWorkSendToBotCommand(sublime_plugin.TextCommand):
                 apiRes = apiGet('bot', cmd=chunk.strip())
                 if apiRes:
                     if 'out' in apiRes:
-                        print "---------------------------------"
+                        print("---------------------------------")
                         for r in apiRes['out']:
-                        	print r       
+                        	print(r)
