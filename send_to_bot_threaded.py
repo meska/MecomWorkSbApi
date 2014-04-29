@@ -1,6 +1,8 @@
 import sublime
 import sublime_plugin
 import urllib
+from urllib import request
+from urllib import parse
 import json
 import threading
 
@@ -25,11 +27,11 @@ class ApiThread(threading.Thread):
 
 
 def apiGet(api, **kwargs):
-    request = urllib.request.Request("http://192.168.2.2/api/%s/" % (api))
+    req = request.Request("http://192.168.2.2/api/%s/" % (api))
 
     if kwargs:
-            request.add_data(urllib.urlencode(kwargs))
-    result = urllib.request.urlopen(request, timeout=120)
+            req.add_data(parse.urlencode(kwargs))
+    result = urllib.request.urlopen(req, timeout=120)
     try:
         return json.load(result)
     except:
