@@ -15,13 +15,14 @@ class ApiThread(threading.Thread):
     def run(self):
         for chunk in self.text.splitlines():
             apiRes = apiGet('bot', cmd=chunk.strip())
+            print(apiRes)
             if apiRes:
                 if 'out' in apiRes:
                     print("---------------------------------")
                     for r in apiRes['out']:
                         print(r)
 
-        #sublime.set_timeout(self.callback, 1)
+        #sublime.set_timeout(self.callback, 1) ovc
 
 
 def apiGet(api, **kwargs):
@@ -33,10 +34,10 @@ def apiGet(api, **kwargs):
     else:
         #req = request.Request("http://192.168.2.2/api/%s/" % (api),None)
         result = request.urlopen("http://192.168.2.2/api/%s/")
-
     try:
-        return json.load(result)
-    except:
+        return json.loads(result.readall().decode('utf-8'))
+    except Exception as e:
+        print(e)
         return None
 
 
